@@ -21,14 +21,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="">
 
-    <title>Unite</title>       
-  
+    <title>Unite</title>          
+    
     <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.5/umd/popper.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>   
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <script type="text/javascript" src="jq/mensagem1.js"></script>
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+
+   
 </head>
 
 <body style="overflow-y:auto;background:gray;overflow-x:hidden">
@@ -37,13 +40,24 @@
         <div class="container-fluid m-auto" style='background-color:white'>
 
             <div class="btn-group">
-                <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Cadastros
+                <button type="button" class="btn btn-danger dropdown-toggle ml-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Clientes
                 </button>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#" onclick="window.location='cadastro_de_clientes.php'">Cadastro de Clientes</a>
+                    <a class="dropdown-item" href="#" onclick="window.location='Cadastro_de_Clientes.php'">Cadastro de Clientes</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Separated link</a>
+                    <a class="dropdown-item" href="#" onclick="window.location='Listagem_de_Clientes.php'">Listagem de Clientes</a>
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Veículos
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#" onclick="window.location='Cadastro_de_Veiculos.php'">Cadastro de Veículos</a>
+                        <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#" onclick="window.location='Listagem_de_Veiculos.php'">Listagem de Veículos</a>                
                 </div>
             </div>
 
@@ -106,8 +120,9 @@
 
                             <td class="text-center" style="font-size:13px">                               
                                
-                                <button type="button" class="btn btn-info btn-sm" name="alterar_cliente" onClick="buscar_cliente(<?php echo $value['id'];  ?>)">Alterar</button>      
-                                <button type="button" class="btn btn-danger btn-sm" name="alterar_cliente" onClick="excluir(<?php echo $value['id'];  ?>)">Excluir</button>                        
+                                <button type="button" class="btn btn-info btn-sm" name="alterar_cliente" onclick="buscar_cliente(<?php echo $value['id'];  ?>)">Alterar</button>      
+                                <!--<button type="button" class="btn btn-danger btn-sm" name="excluir_cliente" onclick="deletar_cliente(<?php //echo $value['id']; ?>)">Excluir</button> -->  
+                                <button type="button" class="btn btn-danger btn-sm" name="excluir_cliente" onclick="modalexc(<?php echo $value['id']; ?>)">Excluir</button>                   
                             </td>
                            
                         </tr>  
@@ -150,8 +165,30 @@
       </div>
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" onclick="deletar_cliente('<?php echo $value['id']; ?>')" data-dismiss="modal">Fechar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
         <button type="button" class="btn btn-danger" onclick="alterar_cliente('<?php echo $value['id']; ?>')">Alterar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="ExemploModalCentralizado2" tabindex="-1" role="dialog" aria-labelledby="TituloModalCentralizado1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document" >
+    <div class="modal-content" >
+      <div class="modal-header">
+        <h5 class="modal-title" id="TituloModalCentralizado">Excluir Cliente?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        Você deseja excluir mesmo excluir esse cliente?
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+        <button type="button" class="btn btn-danger" onclick="deletar_cliente(meuid)">Excluir</button>
       </div>
     </div>
   </div>
@@ -234,12 +271,13 @@
     }
 
     function deletar_cliente(id){
+        id1=id;
         $.ajax({
             type: 'POST',
             url: "client/Deletar_Clientes.php",
             Async: true,
             data: { 
-                    id:id,                                                              
+                    id:id1,                                                              
                 },
             dataType: 'json',
             success: function(data) {
@@ -256,9 +294,43 @@
                     }, 3000); 
                 }
             }                      
-        }); 
+        });
+    }
+</script> 
 
+<!--DATATABLE -->
+<script type="text/javascript" src="dt/jquery.dataTables.min.js"></script>
+<script>
+    var table = $('#example').DataTable({
 
+        language: {                    
+            
+            search: "Pesquisar: ",
+            info: "Mostrando (_START_ de _END_), de um total de _TOTAL_, registros",
+            ZeroRecords:    "Não foi encontrado registros",
+            EmptyTable:     "Nenhum dado disponível nessa tabela",
+            previous: "Anterior",
+            next:     "Próximo",  
+            sLengthMenu: "Mostrar _MENU_ registros",       
+            paginate: {
+                "previous": "Anterior&nbsp;&nbsp;",
+                "next": "&nbsp;&nbsp;Próximo"
+            }            
+        }
+    }); 
+  
+</script>
 
+<script>
+  meuid=0;
+  function modalexc(id){  
+      meuid=id;    
+        $('#ExemploModalCentralizado2').modal('show');
     }
 </script>
+
+<style>
+    #example_filter{
+        float:right;
+    }
+</style>

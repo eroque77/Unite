@@ -111,7 +111,7 @@
     function delete_product($product_id)
 	{
 		global $connection;
-		$query="DELETE FROM products WHERE product_id=".$product_id;
+		$query="DELETE FROM clientes WHERE id=".$product_id;
 		if(mysqli_query($connection, $query))
 		{
 			$status=1;
@@ -121,7 +121,7 @@
 			$status=0;
 		}
 		header('Content-Type: application/json');
-		echo json_encode(array('status'=>$status));
+		echo json_encode($status);
     }      
 
     

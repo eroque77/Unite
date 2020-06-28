@@ -23,7 +23,7 @@
 
             <div class="btn-group">
                 <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Clientes
+                    Veículos
                 </button>
                 <div class="dropdown-menu">
                     <a class="dropdown-item" href="#" onclick="window.location='Cadastro_de_Clientes.php'">Cadastro de Clientes</a>
